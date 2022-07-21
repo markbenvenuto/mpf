@@ -16,7 +16,7 @@ use anyhow::Result;
 
 use super::types::CommonProcInfo;
 
-fn get_procs() -> Result<Vec<CommonProcInfo>> {
+pub fn get_procs() -> Result<Vec<CommonProcInfo>> {
     let mut procs = Vec::<CommonProcInfo>::new();
 
     for prc in procfs::process::all_processes()? {

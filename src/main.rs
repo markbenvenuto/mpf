@@ -25,9 +25,12 @@ use types::CommonProcInfo;
 
 #[cfg(target_os = "linux")]
 mod linux;
+#[cfg(target_os = "linux")]
+use linux::get_procs;
 
 #[cfg(target_os = "macos")]
 mod macos;
+#[cfg(target_os = "macos")]
 use macos::get_procs;
 
 // If we derive our own ArgEnum, we can get better case
