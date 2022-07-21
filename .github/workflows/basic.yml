@@ -94,5 +94,5 @@ jobs:
 
       - uses: actions/upload-artifact@v3
         with:
-          name: my-artifact
+          name: my-artifact-${{ matrix.os }}
           path: target/release/mpf
