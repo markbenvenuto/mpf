@@ -20,30 +20,15 @@ use clap::{ArgEnum, Parser};
 use human_panic::setup_panic;
 use serde_derive::{Deserialize, Serialize};
 
-#[derive(Debug)]
-struct CommonProcInfo {
-    pid: i32,
-    program: String,
-    cmdline: Vec<String>,
-    // env: HashMap<OsString, OsString>
-}
+mod types;
+use types::CommonProcInfo;
 
-fn get_procs() -> Result<Vec<CommonProcInfo>> {
-    let mut procs = Vec::<CommonProcInfo>::new();
+#[cfg(target_os = "linux")]
+mod linux;
 
-    for prc in procfs::process::all_processes()? {
-        let cp = CommonProcInfo {
-            pid: prc.pid,
-            program: prc.stat.comm.clone(),
-            cmdline: prc.cmdline().unwrap_or_default(),
-            // env : prc.environ().unwrap_or_default(),
-        };
-
-        procs.push(cp);
-    }
-
-    Ok(procs)
-}
+#[cfg(target_os = "macos")]
+mod macos;
+use macos::get_procs;
 
 // If we derive our own ArgEnum, we can get better case
 // Because ArgEnum default case conversion converts "_" to "-" and CamelCase to "camel-case"
