@@ -40,7 +40,7 @@ enum MongoProcess {
     Legacyshell,
     Mongod,
     Mongos,
-    // Mongoq,
+    // Mongoqd,
     // TODO
 }
 
@@ -79,6 +79,7 @@ enum ReplicaSetType {
 struct MongoSServerInfo {
     pid: i32,
     port: i32,
+    configdb: String,
 }
 
 #[derive(Serialize, Deserialize, Debug)]
@@ -145,10 +146,17 @@ fn get_mongos_info(proc: &CommonProcInfo) -> MongoSServerInfo {
     let cmdline: &Vec<String> = &proc.cmdline;
     let port_str = get_cmd_line_option("--port", cmdline);
     let port = port_str.map_or(20017, |s| s.parse::<i32>().expect("Bad port number"));
+    let configdb_opt = get_cmd_line_option("--configdb", cmdline);
+
+    let configdb = configdb_opt.map_or(String::new(), |c| {
+        let parts = c.split_once("/");
+        parts.map_or(String::new(), |v| v.0.to_owned())
+    });
 
     MongoSServerInfo {
         pid: proc.pid,
         port,
+        configdb,
     }
 }
 

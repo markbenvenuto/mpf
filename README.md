@@ -34,3 +34,7 @@ Apache 2.0
 
 - add support for filter by replica set name
 - add support for filter by replica set role - i.e. is primary or secondary by connecting to mongod
+
+- investigate cargo-dist
+
+- add python wrapper so lldb can directly call it

@@ -20,9 +20,10 @@ pub fn get_procs() -> Result<Vec<CommonProcInfo>> {
     let mut procs = Vec::<CommonProcInfo>::new();
 
     for prc in procfs::process::all_processes()? {
+        let prc = prc?;
         let cp = CommonProcInfo {
             pid: prc.pid,
-            program: prc.stat.comm.clone(),
+            program: prc.stat().unwrap().comm.clone(), // TODO - avoid unwrap
             cmdline: prc.cmdline().unwrap_or_default(),
             // env : prc.environ().unwrap_or_default(),
         };
