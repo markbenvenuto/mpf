@@ -149,7 +149,7 @@ fn get_mongos_info(proc: &CommonProcInfo) -> MongoSServerInfo {
     let configdb_opt = get_cmd_line_option("--configdb", cmdline);
 
     let configdb = configdb_opt.map_or(String::new(), |c| {
-        let parts = c.split_once("/");
+        let parts = c.split_once('/');
         parts.map_or(String::new(), |v| v.0.to_owned())
     });
 
