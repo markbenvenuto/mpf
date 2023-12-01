@@ -16,7 +16,7 @@
 // use std::ffi::OsString;
 
 use anyhow::Result;
-use clap::{ArgEnum, Parser};
+use clap::{ValueEnum, Parser};
 use human_panic::setup_panic;
 use serde_derive::{Deserialize, Serialize};
 
@@ -35,7 +35,7 @@ use macos::get_procs;
 
 // If we derive our own ArgEnum, we can get better case
 // Because ArgEnum default case conversion converts "_" to "-" and CamelCase to "camel-case"
-#[derive(Debug, PartialEq, Clone, ArgEnum)]
+#[derive(Debug, PartialEq, Clone, ValueEnum)]
 enum MongoProcess {
     Legacyshell,
     Mongod,
@@ -61,7 +61,7 @@ fn is_mongo_process(proc: &CommonProcInfo) -> Option<MongoProcess> {
     }
 }
 
-#[derive(Serialize, Deserialize, Debug, ArgEnum, Clone, PartialEq)]
+#[derive(Serialize, Deserialize, Debug, ValueEnum, Clone, PartialEq)]
 enum MongoDType {
     Standalone,
     ReplicaSet,
@@ -69,7 +69,7 @@ enum MongoDType {
     Shard,
 }
 
-#[derive(Debug, ArgEnum, Clone, PartialEq)]
+#[derive(Debug, ValueEnum, Clone, PartialEq)]
 enum ReplicaSetType {
     Primary,
     Secondary,
@@ -172,11 +172,11 @@ struct MongoPSInfo {
 #[clap(author, version, about, long_about = None)]
 struct Args {
     /// Process Type
-    #[clap(short = 't', long = "type", arg_enum, value_parser)]
+    #[clap(short = 't', long = "type", value_enum, value_parser)]
     process_type: Option<MongoProcess>,
 
     /// ServerType
-    #[clap(long, arg_enum, value_parser)]
+    #[clap(long, value_enum, value_parser)]
     server_type: Option<MongoDType>,
 
     /// Port of mongo daemon to search for
