@@ -16,7 +16,7 @@
 // use std::ffi::OsString;
 
 use anyhow::Result;
-use clap::{ValueEnum, Parser};
+use clap::{Parser, ValueEnum};
 use human_panic::setup_panic;
 use serde_derive::{Deserialize, Serialize};
 
